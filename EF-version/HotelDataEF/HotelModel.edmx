@@ -1,0 +1,492 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HotelManagementDatabaseModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="HotelManagementDatabaseModelStoreContainer">
+    <EntitySet Name="Client" EntityType="HotelManagementDatabaseModel.Store.Client" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="HotelIncome" EntityType="HotelManagementDatabaseModel.Store.HotelIncome" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Login" EntityType="HotelManagementDatabaseModel.Store.Login" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Res_serv" EntityType="HotelManagementDatabaseModel.Store.Res_serv" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Reservation" EntityType="HotelManagementDatabaseModel.Store.Reservation" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Room" EntityType="HotelManagementDatabaseModel.Store.Room" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Services" EntityType="HotelManagementDatabaseModel.Store.Services" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Type" EntityType="HotelManagementDatabaseModel.Store.Type" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="Reservation_Client_Relation" Association="HotelManagementDatabaseModel.Store.Reservation_Client_Relation">
+      <End Role="Client" EntitySet="Client" />
+      <End Role="Reservation" EntitySet="Reservation" />
+    </AssociationSet>
+    <AssociationSet Name="Reservation_M2M_Relation" Association="HotelManagementDatabaseModel.Store.Reservation_M2M_Relation">
+      <End Role="Reservation" EntitySet="Reservation" />
+      <End Role="Res_serv" EntitySet="Res_serv" />
+    </AssociationSet>
+    <AssociationSet Name="Service_M2M_Relation" Association="HotelManagementDatabaseModel.Store.Service_M2M_Relation">
+      <End Role="Services" EntitySet="Services" />
+      <End Role="Res_serv" EntitySet="Res_serv" />
+    </AssociationSet>
+    <AssociationSet Name="Reservation_Room_Relation" Association="HotelManagementDatabaseModel.Store.Reservation_Room_Relation">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="Reservation" EntitySet="Reservation" />
+    </AssociationSet>
+    <AssociationSet Name="Room_Type_Relation" Association="HotelManagementDatabaseModel.Store.Room_Type_Relation">
+      <End Role="Type" EntitySet="Type" />
+      <End Role="Room" EntitySet="Room" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Client">
+    <Key>
+      <PropertyRef Name="Client_id" />
+    </Key>
+    <Property Name="Client_id" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="Client_first_name" Type="varchar" Nullable="false" MaxLength="30" />
+    <Property Name="Client_middle_name" Type="varchar" Nullable="true" MaxLength="30" />
+    <Property Name="Client_last_name" Type="varchar" Nullable="false" MaxLength="30" />
+    <Property Name="Client_date_of_birth" Type="datetime" Nullable="false" />
+    <Property Name="Client_tel" Type="varchar" Nullable="true" MaxLength="30" />
+    <Property Name="Client_country" Type="varchar" Nullable="true" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="HotelIncome">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Room_num" Type="int" Nullable="false" />
+    <Property Name="Residents" Type="int" Nullable="false" />
+    <Property Name="Date_in" Type="datetime" Nullable="false" />
+    <Property Name="Date_out" Type="datetime" Nullable="false" />
+    <Property Name="Room_cost" Type="float" Nullable="false" />
+    <Property Name="Services_cost" Type="float" Nullable="false" />
+    <Property Name="Total" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Login1" Type="varchar(max)" Nullable="false" />
+    <Property Name="Password" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Res_serv">
+    <Key>
+      <PropertyRef Name="Id_res_serv" />
+    </Key>
+    <Property Name="Id_res" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="Id_serv" Type="int" Nullable="false" />
+    <Property Name="Id_res_serv" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reservation">
+    <Key>
+      <PropertyRef Name="Res_id" />
+    </Key>
+    <Property Name="Res_id" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="Client_id" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="Room_num" Type="int" Nullable="false" />
+    <Property Name="Date_in" Type="datetime" Nullable="false" />
+    <Property Name="Services" Type="varchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Room">
+    <Key>
+      <PropertyRef Name="room_num" />
+    </Key>
+    <Property Name="room_num" Type="int" Nullable="false" />
+    <Property Name="type" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="floor" Type="int" Nullable="false" />
+    <Property Name="people" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Services">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Service" Type="varchar" Nullable="false" MaxLength="30" />
+    <Property Name="Price" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Type">
+    <Key>
+      <PropertyRef Name="type1" />
+    </Key>
+    <Property Name="type1" Type="varchar" Nullable="false" MaxLength="10" />
+    <Property Name="C_people" Type="int" Nullable="true" />
+    <Property Name="Price_1" Type="float" Nullable="true" />
+    <Property Name="Price" Type="float" Nullable="true" />
+    <Property Name="Area" Type="float" Nullable="true" />
+  </EntityType>
+  <Association Name="Reservation_Client_Relation">
+    <End Role="Client" Type="HotelManagementDatabaseModel.Store.Client" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Reservation" Type="HotelManagementDatabaseModel.Store.Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="Client_id" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="Client_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Reservation_M2M_Relation">
+    <End Role="Reservation" Type="HotelManagementDatabaseModel.Store.Reservation" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Res_serv" Type="HotelManagementDatabaseModel.Store.Res_serv" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reservation">
+        <PropertyRef Name="Res_id" />
+      </Principal>
+      <Dependent Role="Res_serv">
+        <PropertyRef Name="Id_res" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Service_M2M_Relation">
+    <End Role="Services" Type="HotelManagementDatabaseModel.Store.Services" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Res_serv" Type="HotelManagementDatabaseModel.Store.Res_serv" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Services">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Res_serv">
+        <PropertyRef Name="Id_serv" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Reservation_Room_Relation">
+    <End Role="Room" Type="HotelManagementDatabaseModel.Store.Room" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Reservation" Type="HotelManagementDatabaseModel.Store.Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="room_num" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="Room_num" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Room_Type_Relation">
+    <End Role="Type" Type="HotelManagementDatabaseModel.Store.Type" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Room" Type="HotelManagementDatabaseModel.Store.Room" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type">
+        <PropertyRef Name="type1" />
+      </Principal>
+      <Dependent Role="Room">
+        <PropertyRef Name="type" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HotelManagementDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Client_id" />
+          </Key>
+          <Property Name="Client_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Client_first_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Client_middle_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Client_last_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Client_date_of_birth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Client_tel" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Client_country" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Reservation" Relationship="Self.Reservation_Client_Relation" FromRole="Client" ToRole="Reservation" />
+        </EntityType>
+        <EntityType Name="HotelIncome">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Room_num" Type="Int32" Nullable="false" />
+          <Property Name="Residents" Type="Int32" Nullable="false" />
+          <Property Name="Date_in" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Date_out" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Room_cost" Type="Double" Nullable="false" />
+          <Property Name="Services_cost" Type="Double" Nullable="false" />
+          <Property Name="Total" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Login">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Login1" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Res_serv">
+          <Key>
+            <PropertyRef Name="Id_res_serv" />
+          </Key>
+          <Property Name="Id_res" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Id_serv" Type="Int32" Nullable="false" />
+          <Property Name="Id_res_serv" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Reservation" Relationship="Self.Reservation_M2M_Relation" FromRole="Res_serv" ToRole="Reservation" />
+          <NavigationProperty Name="Services" Relationship="Self.Service_M2M_Relation" FromRole="Res_serv" ToRole="Services" />
+        </EntityType>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="Res_id" />
+          </Key>
+          <Property Name="Res_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Client_id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Room_num" Type="Int32" Nullable="false" />
+          <Property Name="Date_in" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Services" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.Reservation_Client_Relation" FromRole="Reservation" ToRole="Client" />
+          <NavigationProperty Name="Res_serv" Relationship="Self.Reservation_M2M_Relation" FromRole="Reservation" ToRole="Res_serv" />
+          <NavigationProperty Name="Room" Relationship="Self.Reservation_Room_Relation" FromRole="Reservation" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="room_num" />
+          </Key>
+          <Property Name="room_num" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="floor" Type="Int32" Nullable="false" />
+          <Property Name="people" Type="Int32" />
+          <NavigationProperty Name="Reservation" Relationship="Self.Reservation_Room_Relation" FromRole="Room" ToRole="Reservation" />
+          <NavigationProperty Name="Type1" Relationship="Self.Room_Type_Relation" FromRole="Room" ToRole="Type" />
+        </EntityType>
+        <EntityType Name="Services">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Service" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Res_serv" Relationship="Self.Service_M2M_Relation" FromRole="Services" ToRole="Res_serv" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="type1" />
+          </Key>
+          <Property Name="type1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="C_people" Type="Int32" />
+          <Property Name="Price_1" Type="Double" />
+          <Property Name="Price" Type="Double" />
+          <Property Name="Area" Type="Double" />
+          <NavigationProperty Name="Room" Relationship="Self.Room_Type_Relation" FromRole="Type" ToRole="Room" />
+        </EntityType>
+        <Association Name="Reservation_Client_Relation">
+          <End Role="Client" Type="Self.Client" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Client_id" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Reservation_M2M_Relation">
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Res_serv" Type="Self.Res_serv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Reservation">
+              <PropertyRef Name="Res_id" />
+            </Principal>
+            <Dependent Role="Res_serv">
+              <PropertyRef Name="Id_res" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Service_M2M_Relation">
+          <End Role="Services" Type="Self.Services" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Res_serv" Type="Self.Res_serv" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Services">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Res_serv">
+              <PropertyRef Name="Id_serv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Reservation_Room_Relation">
+          <End Role="Room" Type="Self.Room" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Reservation" Type="Self.Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="room_num" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="Room_num" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Room_Type_Relation">
+          <End Role="Type" Type="Self.Type" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Room" Type="Self.Room" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="type1" />
+            </Principal>
+            <Dependent Role="Room">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HotelManagementDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Client" EntityType="Self.Client" />
+          <EntitySet Name="HotelIncome" EntityType="Self.HotelIncome" />
+          <EntitySet Name="Login" EntityType="Self.Login" />
+          <EntitySet Name="Res_serv" EntityType="Self.Res_serv" />
+          <EntitySet Name="Reservation" EntityType="Self.Reservation" />
+          <EntitySet Name="Room" EntityType="Self.Room" />
+          <EntitySet Name="Services" EntityType="Self.Services" />
+          <EntitySet Name="Type" EntityType="Self.Type" />
+          <AssociationSet Name="Reservation_Client_Relation" Association="Self.Reservation_Client_Relation">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="Reservation_M2M_Relation" Association="Self.Reservation_M2M_Relation">
+            <End Role="Reservation" EntitySet="Reservation" />
+            <End Role="Res_serv" EntitySet="Res_serv" />
+          </AssociationSet>
+          <AssociationSet Name="Service_M2M_Relation" Association="Self.Service_M2M_Relation">
+            <End Role="Services" EntitySet="Services" />
+            <End Role="Res_serv" EntitySet="Res_serv" />
+          </AssociationSet>
+          <AssociationSet Name="Reservation_Room_Relation" Association="Self.Reservation_Room_Relation">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="Room_Type_Relation" Association="Self.Room_Type_Relation">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Room" EntitySet="Room" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HotelManagementDatabaseModelStoreContainer" CdmEntityContainer="HotelManagementDatabaseEntities">
+    <EntitySetMapping Name="Client">
+      <EntityTypeMapping TypeName="IsTypeOf(HotelManagementDatabaseModel.Client)">
+        <MappingFragment StoreEntitySet="Client">
+          <ScalarProperty Name="Client_id" ColumnName="Client_id" />
+          <ScalarProperty Name="Client_first_name" ColumnName="Client_first_name" />
+          <ScalarProperty Name="Client_middle_name" ColumnName="Client_middle_name" />
+          <ScalarProperty Name="Client_last_name" ColumnName="Client_last_name" />
+          <ScalarProperty Name="Client_date_of_birth" ColumnName="Client_date_of_birth" />
+          <ScalarProperty Name="Client_tel" ColumnName="Client_tel" />
+          <ScalarProperty Name="Client_country" ColumnName="Client_country" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HotelIncome">
+      <EntityTypeMapping TypeName="IsTypeOf(HotelManagementDatabaseModel.HotelIncome)">
+        <MappingFragment StoreEntitySet="HotelIncome">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Room_num" ColumnName="Room_num" />
+          <ScalarProperty Name="Residents" ColumnName="Residents" />
+          <ScalarProperty Name="Date_in" ColumnName="Date_in" />
+          <ScalarProperty Name="Date_out" ColumnName="Date_out" />
+          <ScalarProperty Name="Room_cost" ColumnName="Room_cost" />
+          <ScalarProperty Name="Services_cost" ColumnName="Services_cost" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Login">
+      <EntityTypeMapping TypeName="IsTypeOf(HotelManagementDatabaseModel.Login)">
+        <MappingFragment StoreEntitySet="Login">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Login1" ColumnName="Login1" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Res_serv">
+      <EntityTypeMapping TypeName="IsTypeOf(HotelManagementDatabaseModel.Res_serv)">
+        <MappingFragment StoreEntitySet="Res_serv">
+          <ScalarProperty Name="Id_res_serv" ColumnName="Id_res_serv" />
+          <ScalarProperty Name="Id_res" ColumnName="Id_res" />
+          <ScalarProperty Name="Id_serv" ColumnName="Id_serv" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reservation">
+      <EntityTypeMapping TypeName="IsTypeOf(HotelManagementDatabaseModel.Reservation)">
+        <MappingFragment StoreEntitySet="Reservation">
+          <ScalarProperty Name="Res_id" ColumnName="Res_id" />
+          <ScalarProperty Name="Client_id" ColumnName="Client_id" />
+          <ScalarProperty Name="Room_num" ColumnName="Room_num" />
+          <ScalarProperty Name="Date_in" ColumnName="Date_in" />
+          <ScalarProperty Name="Services" ColumnName="Services" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Room">
+      <EntityTypeMapping TypeName="IsTypeOf(HotelManagementDatabaseModel.Room)">
+        <MappingFragment StoreEntitySet="Room">
+          <ScalarProperty Name="room_num" ColumnName="room_num" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="floor" ColumnName="floor" />
+          <ScalarProperty Name="people" ColumnName="people" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Services">
+      <EntityTypeMapping TypeName="IsTypeOf(HotelManagementDatabaseModel.Services)">
+        <MappingFragment StoreEntitySet="Services">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Service" ColumnName="Service" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Type">
+      <EntityTypeMapping TypeName="IsTypeOf(HotelManagementDatabaseModel.Type)">
+        <MappingFragment StoreEntitySet="Type">
+          <ScalarProperty Name="type1" ColumnName="type1" />
+          <ScalarProperty Name="C_people" ColumnName="C_people" />
+          <ScalarProperty Name="Price_1" ColumnName="Price_1" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
