@@ -28,3 +28,4 @@ For Entity Framework version, find the following two files:
 2) /EF-version/HotelManagement/App.config
 
 Go to connection strings section (first one: string #8, second one: string #11) and replace the initial database file path with your own where your database is located.
+
