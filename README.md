@@ -24,6 +24,6 @@ Database issues:
 Copy database file Hotel.mdf to location you prefer.
 For SQL version, find file /SQL-version/HotelManagement/bin/Debug/DatabasePath.txt and type the path to your database.
 For Entity Framework version, find the following two files:
-	1) /EF-version/HotelDataEF/App.config
-	2) /EF-version/HotelManagement/App.config
+1) /EF-version/HotelDataEF/App.config
+2) /EF-version/HotelManagement/App.config
 Go to connection strings section (first one: string #8, second one: string #11) and replace the initial database file path with your own where your database is located.
